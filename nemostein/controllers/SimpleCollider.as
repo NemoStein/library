@@ -7,7 +7,7 @@ package nemostein.controllers
 	import nemostein.Updatable;
 	import nemostein.utils.MathUtils;
 	
-	public class SimpleCollider implements Collider, Updatable
+	public class SimpleCollider implements Collider
 	{
 		private var _i:int;
 		private var _j:int;
