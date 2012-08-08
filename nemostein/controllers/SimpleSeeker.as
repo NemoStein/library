@@ -17,6 +17,17 @@ package nemostein.controllers
 		protected var _turnSpeeds:Vector.<Number>;
 		protected var _moveAngles:Vector.<Number>;
 		
+		private var _i:int;
+		private var _source:Controllable;
+		private var _moveSpeed:Number;
+		private var _turnSpeed:Number;
+		private var _moveAngle:Number;
+		private var _xDistance:Number;
+		private var _yDistance:Number;
+		private var _angle:Number;
+		private var _sin:Number;
+		private var _cos:Number;
+		
 		public function SimpleSeeker(target:Controllable = null, ...sources:Array)
 		{
 			_target = target;
@@ -31,7 +42,7 @@ package nemostein.controllers
 			_turnSpeeds = new Vector.<Number>();
 			_moveAngles = new Vector.<Number>();
 			
-			for each(var source:Object in sources)
+			for each (var source:Object in sources)
 			{
 				if (!(source is Controllable))
 				{
@@ -49,30 +60,30 @@ package nemostein.controllers
 				return;
 			}
 			
-			for (var i:int = 0; i < _sourceCount; ++i)
+			for (_i = 0; _i < _sourceCount; ++_i)
 			{
-				var source:Controllable = _sources[i];
+				_source = _sources[_i];
 				
-				if (source == null)
+				if (_source == null)
 				{
 					continue;
 				}
 				
-				var moveSpeed:Number = _moveSpeeds[i];
-				var turnSpeed:Number = _turnSpeeds[i];
-				var moveAngle:Number = _moveAngles[i];
+				_moveSpeed = _moveSpeeds[_i];
+				_turnSpeed = _turnSpeeds[_i];
+				_moveAngle = _moveAngles[_i];
 				
-				var xDistance:Number = _target.x - source.x;
-				var yDistance:Number = _target.y - source.y;
+				_xDistance = _target.x - _source.x;
+				_yDistance = _target.y - _source.y;
 				
-				var angle:Number = MathUtils.piWrap(Math.atan2(yDistance, xDistance) - moveAngle);
+				_angle = MathUtils.piWrap(Math.atan2(_yDistance, _xDistance) - _moveAngle);
 				
-				moveAngle = MathUtils.piWrap(moveAngle + angle * (turnSpeed / moveSpeed) * 0.02);
+				_moveAngle = MathUtils.piWrap(_moveAngle + _angle * (_turnSpeed / _moveSpeed) * 0.02);
 				
-				source.x += Math.cos(moveAngle) * moveSpeed * 0.02;
-				source.y += Math.sin(moveAngle) * moveSpeed * 0.02;
+				_source.x += Math.cos(_moveAngle) * _moveSpeed * 0.02;
+				_source.y += Math.sin(_moveAngle) * _moveSpeed * 0.02;
 				
-				source.angle = _moveAngles[i] = moveAngle;
+				_source.angle = _moveAngles[_i] = _moveAngle;
 			}
 		}
 		
@@ -99,11 +110,11 @@ package nemostein.controllers
 		
 		public function removeSource(source:Controllable):void
 		{
-			for (var i:int = 0; i < _sourceCount; ++i)
+			for (_i = 0; _i < _sourceCount; ++_i)
 			{
-				if (_sources[i] == source)
+				if (_sources[_i] == source)
 				{
-					_sources[i] = null;
+					_sources[_i] = null;
 					break;
 				}
 			}

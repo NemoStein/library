@@ -12,6 +12,9 @@ package nemostein.controllers
 		private var _i:int;
 		private var _j:int;
 		
+		private var _angleA:Number;
+		private var _angleB:Number;
+		
 		private var _xA:Number;
 		private var _yA:Number;
 		private var _xB:Number;
@@ -26,7 +29,7 @@ package nemostein.controllers
 		{
 			if (collidableA == collidableB)
 			{
-				return true;
+				return false;
 			}
 			
 			_xA = collidableA.x;
@@ -47,11 +50,11 @@ package nemostein.controllers
 		{
 			if (isColliding(collidableA, collidableB))
 			{
-				var angleA:Number = Math.atan2(collidableA.y - collidableB.y, collidableA.x - collidableB.x);
-				var angleB:Number = MathUtils.piWrap(angleA + Math.PI);
+				_angleA = Math.atan2(collidableA.y - collidableB.y, collidableA.x - collidableB.x);
+				_angleB = MathUtils.piWrap(_angleA + Math.PI);
 				
-				collidableA.collide(angleA, collidableB);
-				collidableB.collide(angleB, collidableA);
+				collidableA.collide(_angleA, collidableB);
+				collidableB.collide(_angleB, collidableA);
 			}
 		}
 		

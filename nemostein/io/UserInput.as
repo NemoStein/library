@@ -304,48 +304,48 @@ package nemostein.io
 		/*** Mouse Stuff **************************************************************/
 		private function onLeftMouseDown(event:MouseEvent):void
 		{
-			_leftMouseDown.x = event.localX;
-			_leftMouseDown.y = event.localY;
+			_leftMouseDown.x = event.stageX;
+			_leftMouseDown.y = event.stageY;
 			
 			press(LEFT_MOUSE);
 		}
 		
 		private function onLeftMouseUp(event:MouseEvent):void
 		{
-			_leftMouseUp.x = event.localX;
-			_leftMouseUp.y = event.localY;
+			_leftMouseUp.x = event.stageX;
+			_leftMouseUp.y = event.stageY;
 			
 			release(LEFT_MOUSE);
 		}
 		
 		private function onRightMouseDown(event:MouseEvent):void
 		{
-			_rightMouseDown.x = event.localX;
-			_rightMouseDown.y = event.localY;
+			_rightMouseDown.x = event.stageX;
+			_rightMouseDown.y = event.stageY;
 			
 			press(RIGHT_MOUSE);
 		}
 		
 		private function onRightMouseUp(event:MouseEvent):void
 		{
-			_rightMouseUp.x = event.localX;
-			_rightMouseUp.y = event.localY;
+			_rightMouseUp.x = event.stageX;
+			_rightMouseUp.y = event.stageY;
 			
 			release(RIGHT_MOUSE);
 		}
 		
 		private function onMiddleMouseDown(event:MouseEvent):void
 		{
-			_middleMouseDown.x = event.localX;
-			_middleMouseDown.y = event.localY;
+			_middleMouseDown.x = event.stageX;
+			_middleMouseDown.y = event.stageY;
 			
 			press(MIDDLE_MOUSE);
 		}
 		
 		private function onMiddleMouseUp(event:MouseEvent):void
 		{
-			_middleMouseUp.x = event.localX;
-			_middleMouseUp.y = event.localY;
+			_middleMouseUp.x = event.stageX;
+			_middleMouseUp.y = event.stageY;
 			
 			release(MIDDLE_MOUSE);
 		}
