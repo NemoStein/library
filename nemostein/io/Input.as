@@ -9,16 +9,16 @@ package nemostein.io
 	public class Input
 	{
 		/*** Mouse Variables **********************************************************/
-		private var _wheelDown:Boolean;
-		private var _wheelUp:Boolean;
+		public var mouse:Point = new Point();
+		public var leftMouseDown:Point = new Point();
+		public var leftMouseUp:Point = new Point();
+		public var rightMouseDown:Point = new Point();
+		public var rightMouseUp:Point = new Point();
+		public var middleMouseDown:Point = new Point();
+		public var middleMouseUp:Point = new Point();
 		
-		private var _mouse:Point = new Point();
-		private var _leftMouseDown:Point = new Point();
-		private var _leftMouseUp:Point = new Point();
-		private var _rightMouseDown:Point = new Point();
-		private var _rightMouseUp:Point = new Point();
-		private var _middleMouseDown:Point = new Point();
-		private var _middleMouseUp:Point = new Point();
+		public var wheelDown:Boolean;
+		public var wheelUp:Boolean;
 		/******************************************************************************/
 		
 		private var _pressedKeys:Vector.<Boolean>;
@@ -100,51 +100,6 @@ package nemostein.io
 			_pressedKeys[key] = false;
 		}
 		
-		public function get wheelDown():Boolean
-		{
-			return _wheelDown;
-		}
-		
-		public function get wheelUp():Boolean
-		{
-			return _wheelUp;
-		}
-		
-		public function get mouse():Point
-		{
-			return _mouse.clone();
-		}
-		
-		public function get leftMouseDown():Point
-		{
-			return _leftMouseDown.clone();
-		}
-		
-		public function get leftMouseUp():Point
-		{
-			return _leftMouseUp.clone();
-		}
-		
-		public function get rightMouseDown():Point
-		{
-			return _rightMouseDown.clone();
-		}
-		
-		public function get rightMouseUp():Point
-		{
-			return _rightMouseUp.clone();
-		}
-		
-		public function get middleMouseDown():Point
-		{
-			return _middleMouseDown.clone();
-		}
-		
-		public function get middleMouseUp():Point
-		{
-			return _middleMouseUp.clone();
-		}
-		
 		public function update():void
 		{
 			for (var i:int = 0; i < _keyCount; i++)
@@ -153,11 +108,11 @@ package nemostein.io
 				_justReleasedKeys[i] = false;
 			}
 			
-			_wheelUp = false;
-			_wheelDown = false;
+			wheelUp = false;
+			wheelDown = false;
 			
-			_mouse.x = _stage.mouseX;
-			_mouse.y = _stage.mouseY;
+			mouse.x = _stage.mouseX;
+			mouse.y = _stage.mouseY;
 		}
 		
 		private function reset():void
@@ -186,62 +141,63 @@ package nemostein.io
 		{
 			release(event.keyCode);
 		}
+		
 		/******************************************************************************/
 		
 		/*** Mouse Stuff **************************************************************/
 		private function onLeftMouseDown(event:MouseEvent):void
 		{
-			_leftMouseDown.x = event.stageX;
-			_leftMouseDown.y = event.stageY;
+			leftMouseDown.x = event.stageX;
+			leftMouseDown.y = event.stageY;
 			
 			press(Keys.LEFT_MOUSE);
 		}
 		
 		private function onLeftMouseUp(event:MouseEvent):void
 		{
-			_leftMouseUp.x = event.stageX;
-			_leftMouseUp.y = event.stageY;
+			leftMouseUp.x = event.stageX;
+			leftMouseUp.y = event.stageY;
 			
 			release(Keys.LEFT_MOUSE);
 		}
 		
 		private function onRightMouseDown(event:MouseEvent):void
 		{
-			_rightMouseDown.x = event.stageX;
-			_rightMouseDown.y = event.stageY;
+			rightMouseDown.x = event.stageX;
+			rightMouseDown.y = event.stageY;
 			
 			press(Keys.RIGHT_MOUSE);
 		}
 		
 		private function onRightMouseUp(event:MouseEvent):void
 		{
-			_rightMouseUp.x = event.stageX;
-			_rightMouseUp.y = event.stageY;
+			rightMouseUp.x = event.stageX;
+			rightMouseUp.y = event.stageY;
 			
 			release(Keys.RIGHT_MOUSE);
 		}
 		
 		private function onMiddleMouseDown(event:MouseEvent):void
 		{
-			_middleMouseDown.x = event.stageX;
-			_middleMouseDown.y = event.stageY;
+			middleMouseDown.x = event.stageX;
+			middleMouseDown.y = event.stageY;
 			
 			press(Keys.MIDDLE_MOUSE);
 		}
 		
 		private function onMiddleMouseUp(event:MouseEvent):void
 		{
-			_middleMouseUp.x = event.stageX;
-			_middleMouseUp.y = event.stageY;
+			middleMouseUp.x = event.stageX;
+			middleMouseUp.y = event.stageY;
 			
 			release(Keys.MIDDLE_MOUSE);
 		}
 		
 		private function onMouseWheel(event:MouseEvent):void
 		{
-			_wheelUp = (event.delta > 0);
-			_wheelDown = (event.delta < 0);
+			wheelUp = (event.delta > 0);
+			wheelDown = (event.delta < 0);
 		}
-		/******************************************************************************/
+	/******************************************************************************/
 	}
 }

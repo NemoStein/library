@@ -6,7 +6,7 @@ package nemostein.intro
 	{
 		public var onComplete:Function;
 		
-		private var _sequence:Vector.<Intro>;
+		private var _sequence:Array;
 		private var _index:int;
 		private var _intro:Intro;
 		
@@ -19,7 +19,7 @@ package nemostein.intro
 		
 		private function initialize():void
 		{
-			_sequence = new Vector.<Intro>();
+			_sequence = [];
 		}
 		
 		public function addIntro(intro:Intro):IntroSequence
