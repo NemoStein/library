@@ -117,7 +117,7 @@ package nemostein.color
 				shell = new Color();
 			}
 			
-			var percent:Number = percent < 0 ? 0 : percent > 1 ? 1 : percent;
+			percent= percent < 0 ? 0 : percent > 1 ? 1 : percent;
 			
 			shell.alpha = Math.ceil(from._alpha * (1 - percent) + to._alpha * percent);
 			shell.red = Math.ceil(from._red * (1 - percent) + to._red * percent);
