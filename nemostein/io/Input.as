@@ -9,13 +9,13 @@ package nemostein.io
 	public class Input
 	{
 		/*** Mouse Variables **********************************************************/
-		public var mouse:Point = new Point();
-		public var leftMouseDown:Point = new Point();
-		public var leftMouseUp:Point = new Point();
-		public var rightMouseDown:Point = new Point();
-		public var rightMouseUp:Point = new Point();
-		public var middleMouseDown:Point = new Point();
-		public var middleMouseUp:Point = new Point();
+		private var _mouse:Point = new Point();
+		private var _leftMouseDown:Point = new Point();
+		private var _leftMouseUp:Point = new Point();
+		private var _rightMouseDown:Point = new Point();
+		private var _rightMouseUp:Point = new Point();
+		private var _middleMouseDown:Point = new Point();
+		private var _middleMouseUp:Point = new Point();
 		
 		public var wheelDown:Boolean;
 		public var wheelUp:Boolean;
@@ -117,8 +117,8 @@ package nemostein.io
 			wheelUp = false;
 			wheelDown = false;
 			
-			mouse.x = _stage.mouseX;
-			mouse.y = _stage.mouseY;
+			_mouse.x = _stage.mouseX;
+			_mouse.y = _stage.mouseY;
 		}
 		
 		private function reset():void
@@ -141,10 +141,10 @@ package nemostein.io
 		private function onKeyDown(event:KeyboardEvent):void
 		{
 			press(event.keyCode);
-			
+		
 			//if (event.keyCode == Keys.ESCAPE)
 			//{
-				//event.preventDefault();
+			//event.preventDefault();
 			//}
 		}
 		
@@ -158,48 +158,48 @@ package nemostein.io
 		/*** Mouse Stuff **************************************************************/
 		private function onLeftMouseDown(event:MouseEvent):void
 		{
-			leftMouseDown.x = event.stageX;
-			leftMouseDown.y = event.stageY;
+			_leftMouseDown.x = event.stageX;
+			_leftMouseDown.y = event.stageY;
 			
 			press(Keys.LEFT_MOUSE);
 		}
 		
 		private function onLeftMouseUp(event:MouseEvent):void
 		{
-			leftMouseUp.x = event.stageX;
-			leftMouseUp.y = event.stageY;
+			_leftMouseUp.x = event.stageX;
+			_leftMouseUp.y = event.stageY;
 			
 			release(Keys.LEFT_MOUSE);
 		}
 		
 		private function onRightMouseDown(event:MouseEvent):void
 		{
-			rightMouseDown.x = event.stageX;
-			rightMouseDown.y = event.stageY;
+			_rightMouseDown.x = event.stageX;
+			_rightMouseDown.y = event.stageY;
 			
 			press(Keys.RIGHT_MOUSE);
 		}
 		
 		private function onRightMouseUp(event:MouseEvent):void
 		{
-			rightMouseUp.x = event.stageX;
-			rightMouseUp.y = event.stageY;
+			_rightMouseUp.x = event.stageX;
+			_rightMouseUp.y = event.stageY;
 			
 			release(Keys.RIGHT_MOUSE);
 		}
 		
 		private function onMiddleMouseDown(event:MouseEvent):void
 		{
-			middleMouseDown.x = event.stageX;
-			middleMouseDown.y = event.stageY;
+			_middleMouseDown.x = event.stageX;
+			_middleMouseDown.y = event.stageY;
 			
 			press(Keys.MIDDLE_MOUSE);
 		}
 		
 		private function onMiddleMouseUp(event:MouseEvent):void
 		{
-			middleMouseUp.x = event.stageX;
-			middleMouseUp.y = event.stageY;
+			_middleMouseUp.x = event.stageX;
+			_middleMouseUp.y = event.stageY;
 			
 			release(Keys.MIDDLE_MOUSE);
 		}
@@ -209,6 +209,42 @@ package nemostein.io
 			wheelUp = (event.delta > 0);
 			wheelDown = (event.delta < 0);
 		}
-	/******************************************************************************/
+		
+		/******************************************************************************/
+		
+		public function get mouse():Point
+		{
+			return _mouse.clone();
+		}
+		
+		public function get leftMouseDown():Point
+		{
+			return _leftMouseDown.clone();
+		}
+		
+		public function get leftMouseUp():Point
+		{
+			return _leftMouseUp.clone();
+		}
+		
+		public function get rightMouseDown():Point
+		{
+			return _rightMouseDown.clone();
+		}
+		
+		public function get rightMouseUp():Point
+		{
+			return _rightMouseUp.clone();
+		}
+		
+		public function get middleMouseDown():Point
+		{
+			return _middleMouseDown.clone();
+		}
+		
+		public function get middleMouseUp():Point
+		{
+			return _middleMouseUp.clone();
+		}
 	}
 }

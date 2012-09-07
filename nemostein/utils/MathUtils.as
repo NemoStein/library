@@ -4,18 +4,22 @@ package nemostein.utils
 	
 	public final class MathUtils
 	{
+		[Inline]
 		static public const PI2:Number = Math.PI * 2;
 		
+		[Inline]
 		static public function rad(value:Number):Number
 		{
 			return Math.PI / 180 * value;
 		}
 		
+		[Inline]
 		static public function deg(value:Number):Number
 		{
 			return 180 / Math.PI * value;
 		}
 		
+		[Inline]
 		static public function piWrap(value:Number):Number
 		{
 			while (value > Math.PI)
