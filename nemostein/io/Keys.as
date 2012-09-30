@@ -3,7 +3,6 @@ package nemostein.io
 	
 	public class Keys
 	{
-		public static const ANY:int = 0;
 		public static const LEFT_MOUSE:int = 1;
 		public static const RIGHT_MOUSE:int = 2;
 		public static const MIDDLE_MOUSE:int = 3;

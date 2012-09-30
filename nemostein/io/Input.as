@@ -92,18 +92,12 @@ package nemostein.io
 		{
 			_justPressedKeys[key] = !_pressedKeys[key];
 			_pressedKeys[key] = true;
-			
-			_justPressedKeys[0] = !_pressedKeys[0];
-			_pressedKeys[0] = true;
 		}
 		
 		public function release(key:int):void
 		{
 			_justReleasedKeys[key] = _pressedKeys[key];
 			_pressedKeys[key] = false;
-			
-			_justReleasedKeys[0] = _pressedKeys[0];
-			_pressedKeys[0] = false;
 		}
 		
 		public function update():void
@@ -141,11 +135,6 @@ package nemostein.io
 		private function onKeyDown(event:KeyboardEvent):void
 		{
 			press(event.keyCode);
-		
-			//if (event.keyCode == Keys.ESCAPE)
-			//{
-			//event.preventDefault();
-			//}
 		}
 		
 		private function onKeyUp(event:KeyboardEvent):void
