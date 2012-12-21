@@ -5,7 +5,13 @@ package nemostein.utils
 	public final class MathUtils
 	{
 		[Inline]
-		static public const PI2:Number = Math.PI * 2;
+		static public const DOUBLE_PI:Number = Math.PI * 2;
+		
+		[Inline]
+		static public const HALF_PI:Number = Math.PI / 2;
+		
+		[Inline]
+		static public const QUARTER_PI:Number = Math.PI / 4;
 		
 		[Inline]
 		static public function rad(value:Number):Number
@@ -24,17 +30,18 @@ package nemostein.utils
 		{
 			while (value > Math.PI)
 			{
-				value -= PI2;
+				value -= DOUBLE_PI;
 			}
 			
 			while (value < -Math.PI)
 			{
-				value += PI2;
+				value += DOUBLE_PI;
 			}
 			
 			return value;
 		}
 		
+		[Inline]
 		static public function isInsideTriangle(vertexA:Point, vertexB:Point, vertexC:Point, point:Point):Boolean
 		{
 			var planeAB:Number = (vertexA.x - point.x) * (vertexB.y - point.y) - (vertexB.x - point.x) * (vertexA.y - point.y);
@@ -48,6 +55,7 @@ package nemostein.utils
 			return signAB == signBC && signBC == signCA;
 		}
 		
+		[Inline]
 		static public function isInsidePolygon(vertices:Vector.<Point>, point:Point):Boolean
 		{
 			var count:int = vertices.length;

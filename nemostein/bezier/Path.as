@@ -4,67 +4,105 @@ package nemostein.bezier
 	
 	public class Path
 	{
-		private var _segments:Vector.<QuadBezierSegment>;
+		private var _quadBezierSegment:QuadBezierSegment;
 		private var _length:Number;
 		
-		public function Path()
+		private var _forward:Vector.<Path>;
+		private var _backward:Vector.<Path>;
+		
+		public var id:int;
+		
+		public function Path(start:Point, end:Point, anchor:Point, id:int)
 		{
-			_length = 0;
-			_segments = new Vector.<QuadBezierSegment>();
+			this.id = id;
+			
+			_quadBezierSegment = new QuadBezierSegment(start.x, start.y, end.x, end.y,  anchor.x, anchor.y);
+			_length = _quadBezierSegment.length;
+			
+			_forward = new Vector.<Path>();
+			_backward = new Vector.<Path>();
 		}
 		
-		public function addSegment(ax:Number, ay:Number, bx:Number, by:Number, cx:Number, cy:Number):void
+		public function interpolate(distance:Number, reverse:Boolean, resultPosition:Point):Boolean
 		{
-			var quadBezierSegment:QuadBezierSegment = new QuadBezierSegment(ax, ay, bx, by, cx, cy);
+			var ratio:Number = distance / _length;
 			
-			_length += quadBezierSegment.length;
-			
-			_segments.push(quadBezierSegment);
-		}
-		
-		public function interpolate(distance:Number, reverse:Boolean, result:Point):Boolean
-		{
-			var index:int;
-			var currentLength:Number = 0;
-			var currentSegment:QuadBezierSegment;
-			
-			if(!reverse)
+			if (reverse)
 			{
-				currentSegment = _segments[0];
-				
-				while (currentLength + currentSegment.length < distance)
-				{
-					if (++index == _segments.length)
-					{
-						return false;
-					}
-					
-					currentLength += currentSegment.length;
-					currentSegment = _segments[index];
-				}
-				
-				currentSegment.interpolate((distance - currentLength) / currentSegment.length, result);
+				ratio = 1 - ratio;
+			}
+			
+			var path:Path = this;
+			
+			if (ratio > 1)
+			{
+				path = next;
+			}
+			else if (ratio < 0)
+			{
+				path = previous;
+			}
+			
+			if (path)
+			{
+				path._quadBezierSegment.interpolate(ratio, resultPosition);
+				return true;
 			}
 			else
 			{
-				index = _segments.length - 1;
-				currentSegment = _segments[index];
-				
-				while (currentLength + currentSegment.length < distance)
-				{
-					if (--index < 0)
-					{
-						return false;
-					}
-					
-					currentLength += currentSegment.length;
-					currentSegment = _segments[index];
-				}
-				
-				currentSegment.interpolate(1 - (distance - currentLength) / currentSegment.length, result);
+				return false;
+			}
+		}
+		
+		public function addPath(path:Path):void
+		{
+			_forward.push(path);
+			path._backward.push(this);
+		}
+		
+		public function get next():Path 
+		{
+			if (_forward.length)
+			{
+				return _forward[int(Math.random() * _forward.length)];
 			}
 			
-			return true;
+			return null;
+		}
+		
+		public function get previous():Path 
+		{
+			if (_backward.length)
+			{
+				return _backward[int(Math.random() * _backward.length)];
+			}
+			
+			return null;
+		}
+		
+		public function get length():Number 
+		{
+			return _length;
+		}
+		
+		public function get quadBezierSegment():QuadBezierSegment 
+		{
+			return _quadBezierSegment;
+		}
+		
+		public function get forward():Vector.<Path> 
+		{
+			return _forward;
+		}
+		
+		public function get backward():Vector.<Path> 
+		{
+			return _backward;
+		}
+		
+		public function toString():String 
+		{
+			return "[Path " + id + "]";
 		}
 	}
 }
