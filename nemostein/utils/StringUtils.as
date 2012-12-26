@@ -1,8 +1,37 @@
-package nemostein.utils 
+package nemostein.utils
 {
-
-	public class StringUtils 
+	
+	public class StringUtils
 	{
+		static public function formatNumber(value:Number, decimal:String = ".", hundreds:String = ","):String
+		{
+			var output:String = "";
+			var numberParts:Array = value.toString().split(".");
+			var numbers:Array = String(numberParts[0]).split("");
+			
+			var char:String;
+			var i:int;
+			
+			while (char = numbers.pop())
+			{
+				if (i > 0 && i % 3 == 0)
+				{
+					output = hundreds + output;
+				}
+				
+				output = char + output;
+				
+				i++;
+			}
+			
+			if (numberParts[1])
+			{
+				output += decimal + numberParts[1];
+			}
+			
+			return output;
+		}
+		
 		static public function uuid():String
 		{
 			const chars:Array = ['8', '9', 'A', 'B'];
