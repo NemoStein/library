@@ -42,6 +42,18 @@ package nemostein.utils
 		}
 		
 		[Inline]
+		static public function round(value:Number, decimals:uint):Number
+		{
+			var multiplier:Number = 1;
+			while (decimals-- > 0)
+			{
+				multiplier *= 10;
+			}
+			
+			return int(value * multiplier) / multiplier;
+		}
+		
+		[Inline]
 		static public function isInsideTriangle(vertexA:Point, vertexB:Point, vertexC:Point, point:Point):Boolean
 		{
 			var planeAB:Number = (vertexA.x - point.x) * (vertexB.y - point.y) - (vertexB.x - point.x) * (vertexA.y - point.y);

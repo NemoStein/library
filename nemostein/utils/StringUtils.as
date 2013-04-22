@@ -3,6 +3,10 @@ package nemostein.utils
 	
 	public class StringUtils
 	{
+		static public const PAD_BOTH:String = "padBoth";
+		static public const PAD_LEFT:String = "padLeft";
+		static public const PAD_RIGHT:String = "padRight";
+		
 		static public function formatNumber(value:Number, decimal:String = ".", hundreds:String = ","):String
 		{
 			var output:String = "";
@@ -12,7 +16,8 @@ package nemostein.utils
 			var char:String;
 			var i:int;
 			
-			while (char = numbers.pop())
+			char = numbers.pop();
+			while (char)
 			{
 				if (i > 0 && i % 3 == 0)
 				{
@@ -22,6 +27,7 @@ package nemostein.utils
 				output = char + output;
 				
 				i++;
+				char = numbers.pop();
 			}
 			
 			if (numberParts[1])
@@ -37,6 +43,45 @@ package nemostein.utils
 			const chars:Array = ['8', '9', 'A', 'B'];
 			
 			return randomHex(8) + '-' + randomHex(4) + '-4' + randomHex(3) + '-' + chars[int(Math.random() * 3)] + randomHex(3) + '-' + randomHex(12);
+		}
+		
+		static public function pad(input:*, pad:*, length:int, mode:String = PAD_RIGHT, cap:Boolean = false):String 
+		{	
+			var result:String = String(input);
+			
+			while (result.length < length)
+			{
+				if (mode == PAD_BOTH || mode == PAD_LEFT)
+				{
+					result = String(pad) + result;
+				}
+				
+				if (mode == PAD_BOTH || mode == PAD_RIGHT)
+				{
+					result = result + String(pad);
+				}
+			}
+			
+			if (cap)
+			{
+				var resultLength:int = result.length;
+				var capLength:int = resultLength - length;
+				
+				if (mode == PAD_LEFT)
+				{
+					result = result.substr(capLength);
+				}
+				else if (mode == PAD_LEFT)
+				{
+					result = result.substr(0, length);
+				}
+				else if (mode == PAD_BOTH)
+				{
+					result = result.substr(int(capLength / 2), length);
+				}
+			}
+			
+			return result;
 		}
 		
 		static private function randomHex(length:uint):String

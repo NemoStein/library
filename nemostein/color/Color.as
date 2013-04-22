@@ -61,6 +61,11 @@ package nemostein.color
 			return (_alpha << 24) + (_red << 16) + (_green << 8) + _blue;
 		}
 		
+		public function get rgb():uint
+		{
+			return (_red << 16) + (_green << 8) + _blue;
+		}
+		
 		public function set argb(value:uint):void
 		{
 			_alpha = (value >> 24) & 0xff;
