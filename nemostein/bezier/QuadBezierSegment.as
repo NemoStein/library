@@ -46,33 +46,6 @@ package nemostein.bezier
 		 */
 		public function interpolate(t:Number, result:Point):void
 		{
-			// Original
-			//var d:Point = Point.interpolate(_c, _a, t);
-			//var e:Point = Point.interpolate(_b, _c, t);
-			//var f:Point = Point.interpolate(e, d, t);
-			//
-			//return [f.x, f.y, (_startAngle + _angularDisplacement * t) * (180 / Math.PI)];
-			
-			// First optimization
-			//var caX:Number = _a.x + t * (_c.x - _a.x);
-			//var caY:Number = _a.y + t * (_c.y - _a.y);
-			//
-			//var bcX:Number = _c.x + t * (_b.x - _c.x);
-			//var bcY:Number = _c.y + t * (_b.y - _c.y);
-			//
-			//var x:Number = caX + t * (bcX - caX);
-			//var y:Number = caY + t * (bcY - caY);
-			//
-			//return [x, y, (_startAngle + _angularDisplacement * t) * (180 / Math.PI)];
-			
-			// Second optimization
-			//return [
-				//(_a.x + t * (_c.x - _a.x)) + t * ((_c.x + t * (_b.x - _c.x)) - (_a.x + t * (_c.x - _a.x))),
-				//(_a.y + t * (_c.y - _a.y)) + t * ((_c.y + t * (_b.y - _c.y)) - (_a.y + t * (_c.y - _a.y))),
-				//(_startAngle + _angularDisplacement * t) * (180 / Math.PI)
-			//];
-			
-			// Third optimization
 			result.x = (_a.x + t * (_c.x - _a.x)) + t * ((_c.x + t * (_b.x - _c.x)) - (_a.x + t * (_c.x - _a.x)));
 			result.y = (_a.y + t * (_c.y - _a.y)) + t * ((_c.y + t * (_b.y - _c.y)) - (_a.y + t * (_c.y - _a.y)));
 		}
