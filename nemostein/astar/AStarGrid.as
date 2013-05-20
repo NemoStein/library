@@ -32,7 +32,7 @@ package nemostein.astar
 				for (var y:int = 0; y < _rows; ++y)
 				{
 					var data:AStarNodeData = _maze[x][y];
-					_cells[x * _rows + y] = new AStarNode(x, y, data);
+					_cells[x * _rows + y] = new AStarNode(x, y, data.cost, data.block);
 					
 					if (!data.block)
 					{

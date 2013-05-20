@@ -18,13 +18,13 @@ package nemostein.astar
 		public var block:Boolean;
 		public var parent:AStarNode;
 		
-		public function AStarNode(x:int, y:int, data:AStarNodeData)
+		public function AStarNode(x:int, y:int, cost:int, block:Boolean)
 		{
 			this.x = x;
 			this.y = y;
 			
-			block = data.block;
-			e = data.cost;
+			this.block = block;
+			e = cost;
 		}
 		
 		public function reset():void
