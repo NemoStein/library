@@ -46,16 +46,11 @@ package nemostein.bezier
 					pathStarts.push(pathReference.path);
 				}
 				
-				
 				if (!pathReference.path.forward.length)
 				{
 					pathEnds.push(pathReference.path);
 				}
-				
-				//trace(pathReference.path + "(" + pathReference.path.backward + " <|> " + pathReference.path.forward + ")")
 			}
-			
-			//trace("");
 			
 			return new Paths(pathStarts, pathEnds);
 		}
