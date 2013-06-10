@@ -55,6 +55,21 @@ package nemostein.bezier
 			return _length;
 		}
 		
+		public function get a():Point 
+		{
+			return _a;
+		}
+		
+		public function get b():Point 
+		{
+			return _b;
+		}
+		
+		public function get c():Point 
+		{
+			return _c;
+		}
+		
 		static private function getArcLength(_ax:Number, _ay:Number, _bx:Number, _by:Number, _cx:Number, _cy:Number):Number
 		{
 			var ax:Number = _ax - 2 * _cx + _bx;

@@ -84,20 +84,20 @@ package nemostein.color
 		
 		/*** Statics ********************************************************************/
 		
-		public static function middle(colors:Vector.<Color>, shell:Color = null):Color
+		public static function middle(colors:Vector.<Color>, result:Color = null):Color
 		{
-			if (!shell)
+			if (!result)
 			{
-				shell = new Color();
+				result = new Color();
 			}
 			
 			var totalColors:int = colors.length;
-			var totalA:uint = 0;
-			var totalR:uint = 0;
-			var totalG:uint = 0;
-			var totalB:uint = 0;
+			var totalA:int = 0;
+			var totalR:int = 0;
+			var totalG:int = 0;
+			var totalB:int = 0;
 			
-			for (var i:int = 0; i < totalColors; i++)
+			for (var i:int = 0; i < totalColors; ++i)
 			{
 				var currentColor:Color = colors[i];
 				
@@ -107,77 +107,57 @@ package nemostein.color
 				totalB += currentColor._blue;
 			}
 			
-			shell.alpha = Math.ceil(totalA / totalColors);
-			shell.red = Math.ceil(totalR / totalColors);
-			shell.green = Math.ceil(totalG / totalColors);
-			shell.blue = Math.ceil(totalB / totalColors);
+			result.alpha = int(totalA / totalColors + 0.5);
+			result.red = int(totalR / totalColors + 0.5);
+			result.green = int(totalG / totalColors + 0.5);
+			result.blue = int(totalB / totalColors + 0.5);
 			
-			return shell;
+			return result;
 		}
 		
-		public static function blend(from:Color, to:Color, percent:Number = 0.5, shell:Color = null):Color
+		public static function blend(from:Color, to:Color, percent:Number = 0.5, result:Color = null):Color
 		{
-			if (!shell)
+			if (!result)
 			{
-				shell = new Color();
+				result = new Color();
 			}
 			
-			percent= percent < 0 ? 0 : percent > 1 ? 1 : percent;
+			percent = percent < 0 ? 0 : percent > 1 ? 1 : percent;
 			
-			shell.alpha = Math.ceil(from._alpha * (1 - percent) + to._alpha * percent);
-			shell.red = Math.ceil(from._red * (1 - percent) + to._red * percent);
-			shell.green = Math.ceil(from._green * (1 - percent) + to._green * percent);
-			shell.blue = Math.ceil(from._blue * (1 - percent) + to._blue * percent);
+			result.alpha = int(from._alpha * (1 - percent) + to._alpha * percent + 0.5);
+			result.red = int(from._red * (1 - percent) + to._red * percent + 0.5);
+			result.green = int(from._green * (1 - percent) + to._green * percent + 0.5);
+			result.blue = int(from._blue * (1 - percent) + to._blue * percent + 0.5);
 			
-			return shell;
+			return result;
 		}
 		
-		public static function subtract(base:Color, brush:Color, intensity:Number = 1, relative:Boolean = false):uint
+		public static function subtract(colorA:Color, colorB:Color, intensity:Number = 1, relative:Boolean = false, result:Color = null):Color
 		{
-			var alpha:int = brush._alpha * intensity;
-			var red:int = brush._red * intensity;
-			var green:int = brush._green * intensity;
-			var blue:int = brush._blue * intensity;
+			if (!result)
+			{
+				result = new Color();
+			}
 			
-			var baseAlpha:int = base._alpha;
-			var baseRed:int = base._red;
-			var baseGreen:int = base._green;
-			var baseBlue:int = base._blue;
+			var alpha:Number = colorB._alpha * intensity;
+			var red:Number = colorB._red * intensity;
+			var green:Number = colorB._green * intensity;
+			var blue:Number = colorB._blue * intensity;
 			
 			if (relative)
 			{
-				alpha *= baseAlpha / 0xff;
-				red *= baseRed / 0xff;
-				green *= baseGreen / 0xff;
-				blue *= baseBlue / 0xff;
+				alpha *= colorA._alpha / 0xff;
+				red *= colorA._red / 0xff;
+				green *= colorA._green / 0xff;
+				blue *= colorA._blue / 0xff;
 			}
 			
-			alpha = baseAlpha - alpha;
-			red = baseRed - red;
-			green = baseGreen - green;
-			blue = baseBlue - blue;
+			result.alpha = colorA._alpha - alpha;
+			result.red = colorA._red - red;
+			result.green = colorA._green - green;
+			result.blue = colorA._blue - blue;
 			
-			if (alpha < 0)
-			{
-				alpha = 0;
-			}
-			
-			if (red < 0)
-			{
-				red = 0;
-			}
-			
-			if (green < 0)
-			{
-				green = 0;
-			}
-			
-			if (blue < 0)
-			{
-				blue = 0;
-			}
-			
-			return (alpha << 24) + (red << 16) + (green << 8) + blue;
+			return result;
 		}
 	}
 }
