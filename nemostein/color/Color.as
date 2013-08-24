@@ -23,7 +23,7 @@ package nemostein.color
 		
 		public function set alpha(value:int):void
 		{
-			_alpha = value < 0 ? 0 : value & 0xff;
+			_alpha = value < 0 ? 0 : value > 0xff ? 0xff : value;
 		}
 		
 		public function get red():int
@@ -33,7 +33,7 @@ package nemostein.color
 		
 		public function set red(value:int):void
 		{
-			_red = value < 0 ? 0 : value & 0xff;
+			_red = value < 0 ? 0 : value > 0xff ? 0xff : value;
 		}
 		
 		public function get green():int
@@ -43,7 +43,7 @@ package nemostein.color
 		
 		public function set green(value:int):void
 		{
-			_green = value < 0 ? 0 : value & 0xff;
+			_green = value < 0 ? 0 : value > 0xff ? 0xff : value;
 		}
 		
 		public function get blue():int
@@ -53,7 +53,7 @@ package nemostein.color
 		
 		public function set blue(value:int):void
 		{
-			_blue = value < 0 ? 0 : value & 0xff;
+			_blue = value < 0 ? 0 : value > 0xff ? 0xff : value;
 		}
 		
 		public function get argb():uint
@@ -80,6 +80,11 @@ package nemostein.color
 			red = r;
 			green = g;
 			blue = b;
+		}
+		
+		public function toString():String 
+		{
+			return "[Color 0x" + argb.toString(16) + "]";
 		}
 		
 		/*** Statics ********************************************************************/
