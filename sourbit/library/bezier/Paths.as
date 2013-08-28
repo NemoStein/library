@@ -1,4 +1,4 @@
-package nemostein.bezier 
+package sourbit.library.bezier 
 {
 
 	public class Paths 

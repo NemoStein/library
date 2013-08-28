@@ -1,18 +1,22 @@
-package nemostein.astar
+package sourbit.library.astar
 {
 	import flash.geom.Point;
 	
-	public class AStarGrid
+	public class Grid
 	{
 		private var _maze:Array;
-		private var _cells:Vector.<AStarNode>;
+		private var _cells:Vector.<Node>;
 		
 		private var _rows:int;
 		private var _cols:int;
 		
 		private var _heuristicValue:int;
 		
-		public function AStarGrid(maze:Array)
+		/**
+		 * 
+		 * @param	int[cols][rows] maze
+		 */
+		public function Grid(maze:Array)
 		{
 			_maze = maze;
 			
@@ -26,13 +30,12 @@ package nemostein.astar
 		{
 			var passableCount:int;
 			
-			_cells = new Vector.<AStarNode>(_cols * _rows, true);
+			_cells = new Vector.<Node>(_cols * _rows, true);
 			for (var x:int = 0; x < _cols; ++x)
 			{
 				for (var y:int = 0; y < _rows; ++y)
 				{
-					var data:AStarNodeData = _maze[x][y];
-					_cells[x * _rows + y] = new AStarNode(x, y, data.cost, data.block);
+					_cells[x * _rows + y] = new Node(x, y, _maze[x][y]);
 					
 					if (!data.block)
 					{
@@ -49,7 +52,7 @@ package nemostein.astar
 		{
 			var x:int;
 			var y:int;
-			var cell:AStarNode
+			var cell:Node
 			var pathFound:Boolean;
 			
 			for (x = 0; x < _cols; ++x)
@@ -61,12 +64,12 @@ package nemostein.astar
 				}
 			}
 			
-			var initial:AStarNode = getCellAt(start.x, start.y);
-			var target:AStarNode = getCellAt(end.x, end.y);
+			var initial:Node = getCellAt(start.x, start.y);
+			var target:Node = getCellAt(end.x, end.y);
 			
-			var opened:Vector.<AStarNode> = new <AStarNode>[];
+			var opened:Vector.<Node> = new <Node>[];
 			
-			initial.state = AStarNode.OPENED;
+			initial.state = Node.OPENED;
 			opened.push(initial);
 			
 			search: while (opened.length)
@@ -86,11 +89,11 @@ package nemostein.astar
 					}
 				}
 				
-				var current:AStarNode = opened[lowestI];
+				var current:Node = opened[lowestI];
 				opened[lowestI] = opened[openedLength - 1];
 				opened.pop();
 				
-				current.state = AStarNode.CLOSED;
+				current.state = Node.CLOSED;
 				
 				if (current == target)
 				{
@@ -115,12 +118,12 @@ package nemostein.astar
 							continue;
 						}
 						
-						var neighbour:AStarNode = getCellAt(x, y);
+						var neighbour:Node = getCellAt(x, y);
 						
 						var neighbourX:int = neighbour.x;
 						var neighbourY:int = neighbour.y;
 						
-						var possibleBlock:AStarNode;
+						var possibleBlock:Node;
 						
 						if (neighbourX < currentX)
 						{
@@ -156,7 +159,7 @@ package nemostein.astar
 							}
 						}
 						
-						if (!neighbour.block && neighbour.state != AStarNode.CLOSED)
+						if (!neighbour.block && neighbour.state != Node.CLOSED)
 						{
 							var multplier:Number = 1;
 							if (x != currentX && y != currentY)
@@ -168,16 +171,24 @@ package nemostein.astar
 							
 							switch (neighbour.state)
 							{
-								case AStarNode.CLEAR: 
+								case Node.CLEAR: 
 								{
-									neighbour.state = AStarNode.OPENED;
+									neighbour.state = Node.OPENED;
 									neighbour.parent = current;
 									
 									var distanceX:Number = abs(neighbourX - target.x);
 									var distanceY:Number = abs(neighbourY - target.y);
 									
+									if(distanceX < distanceY)
+									{
+										neighbour.h = (distanceX * 1.4 + abs(distanceX - distanceY)) * _heuristicValue;
+									}
+									else
+									{
+										neighbour.h = (distanceY * 1.4 + abs(distanceX - distanceY)) * _heuristicValue;
+									}
+									
 									neighbour.g = travelCost;
-									neighbour.h = (min(distanceX, distanceY) * 1.4 + abs(distanceX - distanceY)) * _heuristicValue;
 									neighbour.f = neighbour.g + neighbour.h;
 									
 									opened.push(neighbour);
@@ -185,7 +196,7 @@ package nemostein.astar
 									break;
 								}
 								
-								case AStarNode.OPENED: 
+								case Node.OPENED: 
 								{
 									if (neighbour.g > travelCost)
 									{
@@ -231,33 +242,7 @@ package nemostein.astar
 		}
 		
 		[Inline]
-		final private function min(valueA:Number, valueB:Number):Number
-		{
-			if (valueA < valueB)
-			{
-				return valueA;
-			}
-			else
-			{
-				return valueB;
-			}
-		}
-		
-		[Inline]
-		final private function max(valueA:Number, valueB:Number):Number
-		{
-			if (valueA > valueB)
-			{
-				return valueA;
-			}
-			else
-			{
-				return valueB;
-			}
-		}
-		
-		[Inline]
-		final private function getCellAt(x:int, y:int):AStarNode
+		final private function getCellAt(x:int, y:int):Node
 		{
 			return _cells[x * _rows + y];
 		}
@@ -279,7 +264,7 @@ package nemostein.astar
 			return result;
 		}
 		
-		public function get cells():Vector.<AStarNode>
+		public function get cells():Vector.<Node>
 		{
 			return _cells;
 		}

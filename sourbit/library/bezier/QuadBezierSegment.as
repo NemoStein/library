@@ -1,4 +1,4 @@
-package nemostein.bezier
+package sourbit.library.bezier
 {
 	import flash.display.DisplayObject;
 	import flash.geom.Point;

@@ -1,4 +1,4 @@
-package nemostein.utils
+package sourbit.library.utils
 {
 	
 	public class StringUtils

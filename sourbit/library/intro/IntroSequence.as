@@ -1,4 +1,4 @@
-package nemostein.intro
+package sourbit.library.intro
 {
 	import flash.display.Sprite;
 	

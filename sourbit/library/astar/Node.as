@@ -1,7 +1,7 @@
-package nemostein.astar
+package sourbit.library.astar
 {
 	
-	public class AStarNode
+	public class Node
 	{
 		static public const CLEAR:int = 0;
 		static public const OPENED:int = 1;
@@ -16,15 +16,19 @@ package nemostein.astar
 		
 		public var state:int;
 		public var block:Boolean;
-		public var parent:AStarNode;
+		public var parent:Node;
 		
-		public function AStarNode(x:int, y:int, cost:int, block:Boolean)
+		public function Node(x:int, y:int, cost:int)
 		{
 			this.x = x;
 			this.y = y;
 			
-			this.block = block;
 			e = cost;
+			
+			if(cost <= 0)
+			{
+				block = true;
+			}
 		}
 		
 		public function reset():void

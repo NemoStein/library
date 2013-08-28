@@ -1,7 +1,6 @@
-package nemostein.io
+package sourbit.library.io
 {
 	import flash.display.Stage;
-	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.events.MouseEvent;
 	import flash.geom.Point;
@@ -10,6 +9,8 @@ package nemostein.io
 	{
 		/*** Mouse Variables **********************************************************/
 		private var _mouse:Point = new Point();
+		private var _lastMouse:Point = new Point();
+		private var _mouseDelta:Point = new Point();
 		private var _leftMouseDown:Point = new Point();
 		private var _leftMouseUp:Point = new Point();
 		private var _rightMouseDown:Point = new Point();
@@ -29,22 +30,15 @@ package nemostein.io
 		private var _stage:Stage;
 		
 		/*** Public *******************************************************************/
-		public function Input(stage:Stage = null)
+		public function Input(stage:Stage)
 		{
-			reset();
-			
-			if (stage)
-			{
-				activate(stage);
-			}
-		}
-		
-		public function activate(stage:Stage):void
-		{
-			reset();
-			
 			_stage = stage;
 			
+			activate();
+		}
+		
+		public function activate():void
+		{
 			_stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyDown);
 			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 			_stage.addEventListener(MouseEvent.MOUSE_DOWN, onLeftMouseDown);
@@ -54,6 +48,8 @@ package nemostein.io
 			_stage.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMiddleMouseDown);
 			_stage.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);
 			_stage.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
+			
+			reset();
 		}
 		
 		public function deactivate():void
@@ -67,8 +63,6 @@ package nemostein.io
 			_stage.removeEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMiddleMouseDown);
 			_stage.removeEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);
 			_stage.removeEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
-			
-			_stage = null;
 			
 			reset();
 		}
@@ -111,11 +105,17 @@ package nemostein.io
 			wheelUp = false;
 			wheelDown = false;
 			
+			_lastMouse.x = _mouse.x;
+			_lastMouse.y = _mouse.y;
+			
 			_mouse.x = _stage.mouseX;
 			_mouse.y = _stage.mouseY;
+			
+			_mouseDelta.x = _mouse.x - _lastMouse.x;
+			_mouseDelta.y = _mouse.y - _lastMouse.y;
 		}
 		
-		private function reset():void
+		protected function reset():void
 		{
 			_keyCount = 227;
 			
@@ -132,12 +132,12 @@ package nemostein.io
 		}
 		
 		/*** Keyboard Stuff ***********************************************************/
-		private function onKeyDown(event:KeyboardEvent):void
+		protected function onKeyDown(event:KeyboardEvent):void
 		{
 			press(event.keyCode);
 		}
 		
-		private function onKeyUp(event:KeyboardEvent):void
+		protected function onKeyUp(event:KeyboardEvent):void
 		{
 			release(event.keyCode);
 		}
@@ -145,7 +145,7 @@ package nemostein.io
 		/******************************************************************************/
 		
 		/*** Mouse Stuff **************************************************************/
-		private function onLeftMouseDown(event:MouseEvent):void
+		protected function onLeftMouseDown(event:MouseEvent):void
 		{
 			_leftMouseDown.x = event.stageX;
 			_leftMouseDown.y = event.stageY;
@@ -153,7 +153,7 @@ package nemostein.io
 			press(Keys.LEFT_MOUSE);
 		}
 		
-		private function onLeftMouseUp(event:MouseEvent):void
+		protected function onLeftMouseUp(event:MouseEvent):void
 		{
 			_leftMouseUp.x = event.stageX;
 			_leftMouseUp.y = event.stageY;
@@ -161,7 +161,7 @@ package nemostein.io
 			release(Keys.LEFT_MOUSE);
 		}
 		
-		private function onRightMouseDown(event:MouseEvent):void
+		protected function onRightMouseDown(event:MouseEvent):void
 		{
 			_rightMouseDown.x = event.stageX;
 			_rightMouseDown.y = event.stageY;
@@ -169,7 +169,7 @@ package nemostein.io
 			press(Keys.RIGHT_MOUSE);
 		}
 		
-		private function onRightMouseUp(event:MouseEvent):void
+		protected function onRightMouseUp(event:MouseEvent):void
 		{
 			_rightMouseUp.x = event.stageX;
 			_rightMouseUp.y = event.stageY;
@@ -177,7 +177,7 @@ package nemostein.io
 			release(Keys.RIGHT_MOUSE);
 		}
 		
-		private function onMiddleMouseDown(event:MouseEvent):void
+		protected function onMiddleMouseDown(event:MouseEvent):void
 		{
 			_middleMouseDown.x = event.stageX;
 			_middleMouseDown.y = event.stageY;
@@ -185,7 +185,7 @@ package nemostein.io
 			press(Keys.MIDDLE_MOUSE);
 		}
 		
-		private function onMiddleMouseUp(event:MouseEvent):void
+		protected function onMiddleMouseUp(event:MouseEvent):void
 		{
 			_middleMouseUp.x = event.stageX;
 			_middleMouseUp.y = event.stageY;
@@ -193,7 +193,7 @@ package nemostein.io
 			release(Keys.MIDDLE_MOUSE);
 		}
 		
-		private function onMouseWheel(event:MouseEvent):void
+		protected function onMouseWheel(event:MouseEvent):void
 		{
 			wheelUp = (event.delta > 0);
 			wheelDown = (event.delta < 0);
@@ -203,37 +203,42 @@ package nemostein.io
 		
 		public function get mouse():Point
 		{
-			return _mouse.clone();
+			return new Point(_mouse.x, _mouse.y);
+		}
+		
+		public function get mouseDelta():Point
+		{
+			return new Point(_mouseDelta.x, _mouseDelta.y);
 		}
 		
 		public function get leftMouseDown():Point
 		{
-			return _leftMouseDown.clone();
+			return new Point(_leftMouseDown.x, _leftMouseDown.y);
 		}
 		
 		public function get leftMouseUp():Point
 		{
-			return _leftMouseUp.clone();
+			return new Point(_leftMouseUp.x, _leftMouseUp.y);
 		}
 		
 		public function get rightMouseDown():Point
 		{
-			return _rightMouseDown.clone();
+			return new Point(_rightMouseDown.x, _rightMouseDown.y);
 		}
 		
 		public function get rightMouseUp():Point
 		{
-			return _rightMouseUp.clone();
+			return new Point(_rightMouseUp.x, _rightMouseUp.y);
 		}
 		
 		public function get middleMouseDown():Point
 		{
-			return _middleMouseDown.clone();
+			return new Point(_middleMouseDown.x, _middleMouseDown.y);
 		}
 		
 		public function get middleMouseUp():Point
 		{
-			return _middleMouseUp.clone();
+			return new Point(_middleMouseUp.x, _middleMouseUp.y);
 		}
 	}
 }
