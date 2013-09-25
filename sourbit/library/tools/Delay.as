@@ -118,12 +118,5 @@ package sourbit.library.tools
 		{
 			return _active;
 		}
-		
-		public function get timer():Number
-		{
-			return _timer;
-		}
-		
 	}
-
 }
