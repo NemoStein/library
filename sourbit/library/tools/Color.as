@@ -1,4 +1,4 @@
-package sourbit.library.color
+package sourbit.library.tools
 {
 	
 	public class Color
@@ -82,7 +82,7 @@ package sourbit.library.color
 			blue = b;
 		}
 		
-		public function toString():String 
+		public function toString():String
 		{
 			return "[Color 0x" + argb.toString(16) + "]";
 		}
