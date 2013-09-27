@@ -5,50 +5,67 @@ package sourbit.library.tools
 	import flash.net.URLLoader;
 	import flash.net.URLRequest;
 	import flash.net.URLRequestMethod;
-	import flash.net.URLVariables;
 	
 	public class Report
 	{
-		static private const SERVER_URL:String = "http://sourbit.com.br/report.php";
+		private var _request:URLRequest;
+		private var _loader:URLLoader;
+		private var _data:Object;
 		
-		static private var _report:URLVariables;
-		static private var _request:URLRequest;
-		static private var _loader:URLLoader;
+		private var _onResultCallback:Function;
 		
-		static private var _onResultCallback:Function;
-		
-		static public function recordLevelTime(level:int, time:int):void
+		public function Report(serviceURL:String)
 		{
-			if (!_report)
-			{
-				_report = new URLVariables();
-				_request = new URLRequest(SERVER_URL);
-				_loader = new URLLoader();
-				
-				_request.method = URLRequestMethod.POST;
-				_request.data = _report;
-				
-				_loader.addEventListener(Event.COMPLETE, onLoaderComplete);
-				_loader.addEventListener(IOErrorEvent.IO_ERROR, onLoaderIoError);
-			}
+			_loader = new URLLoader();
+			_request = new URLRequest(serviceURL);
+			_request.method = URLRequestMethod.POST;
 			
-			var key:String = level + "[]";
+			_data = {};
 			
-			if (!_report[key])
-			{
-				_report[key] = [];
-			}
-			
-			_report[key].push(time);
+			_loader.addEventListener(Event.COMPLETE, onLoaderComplete);
+			_loader.addEventListener(IOErrorEvent.IO_ERROR, onLoaderIoError);
 		}
 		
-		static public function save(onResultCallback:Function):void
+		public function record(name:*, ... data:Array):void
+		{
+			recordGrouped.apply(this, [null, name].concat(data));
+		}
+		
+		public function recordGrouped(group:*, name:*, ... data:Array):void
+		{
+			// Shadowing by design
+			var group:String = trim(group);
+			var name:String = trim(name);
+			
+			var item:*;
+			
+			if (_data[group] == undefined)
+			{
+				_data[group] = {};
+			}
+			
+			if (_data[group][name] == undefined)
+			{
+				_data[group][name] = [];
+			}
+			
+			for each (item in data)
+			{
+				_data[group][name].push(String(item));
+			}
+		}
+		
+		/**
+		 * @param	onResultCallback function(success:Boolean):void
+		 */
+		public function save(onResultCallback:Function = null):void
 		{
 			_onResultCallback = onResultCallback;
+			_request.data = JSON.stringify(_data);
 			_loader.load(_request);
 		}
 		
-		static private function onLoaderIoError(event:IOErrorEvent):void
+		private function onLoaderIoError(event:IOErrorEvent):void
 		{
 			if (_onResultCallback)
 			{
@@ -57,17 +74,42 @@ package sourbit.library.tools
 			}
 			
 			trace("Couldn't save the Report");
+			trace(event.text);
 		}
 		
-		static private function onLoaderComplete(event:Event):void
+		private function onLoaderComplete(event:Event):void
 		{
 			if (_onResultCallback)
 			{
 				_onResultCallback(true);
 				_onResultCallback = null;
 			}
+		}
+		
+		private function trim(value:String):String
+		{
+			var result:String;
 			
-			_report = new URLVariables();
+			if (value != null)
+			{
+				result = String(value).replace(/^\s*(.*?)\s*$/g, "$1");
+			}
+			else
+			{
+				result = "";
+			}
+			
+			return result;
+		}
+		
+		public function get serviceURL():String
+		{
+			return _request.url;
+		}
+		
+		public function set serviceURL(value:String):void
+		{
+			_request.url = value;
 		}
 	}
 }
