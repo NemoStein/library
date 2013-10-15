@@ -26,12 +26,14 @@ package sourbit.library.tools
 			_loader.addEventListener(IOErrorEvent.IO_ERROR, onLoaderIoError);
 		}
 		
-		public function record(name:*, ... data:Array):void
+		public function record(name:*, ... data:Array):Report
 		{
 			recordGrouped.apply(this, [null, name].concat(data));
+			
+			return this;
 		}
 		
-		public function recordGrouped(group:*, name:*, ... data:Array):void
+		public function recordGrouped(group:*, name:*, ... data:Array):Report
 		{
 			// Shadowing by design
 			var group:String = trim(group);
@@ -51,16 +53,20 @@ package sourbit.library.tools
 			{
 				_data[group][name].push(String(item));
 			}
+			
+			return this;
 		}
 		
 		/**
 		 * @param	onResultCallback function(success:Boolean):void
 		 */
-		public function save(onResultCallback:Function = null):void
+		public function save(onResultCallback:Function = null):Report
 		{
 			_onResultCallback = onResultCallback;
 			_request.data = JSON.stringify(_data);
 			_loader.load(_request);
+			
+			return this;
 		}
 		
 		private function onLoaderIoError(event:IOErrorEvent):void
