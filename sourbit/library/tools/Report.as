@@ -20,7 +20,7 @@ package sourbit.library.tools
 			_request = new URLRequest(serviceURL);
 			_request.method = URLRequestMethod.POST;
 			
-			_data = {};
+			resetData();
 			
 			_loader.addEventListener(Event.COMPLETE, onLoaderComplete);
 			_loader.addEventListener(IOErrorEvent.IO_ERROR, onLoaderIoError);
@@ -37,8 +37,6 @@ package sourbit.library.tools
 			var group:String = trim(group);
 			var name:String = trim(name);
 			
-			var item:*;
-			
 			if (_data[group] == undefined)
 			{
 				_data[group] = {};
@@ -49,7 +47,7 @@ package sourbit.library.tools
 				_data[group][name] = [];
 			}
 			
-			for each (item in data)
+			for each (var item:* in data)
 			{
 				_data[group][name].push(String(item));
 			}
@@ -84,6 +82,13 @@ package sourbit.library.tools
 				_onResultCallback(true);
 				_onResultCallback = null;
 			}
+			
+			resetData();
+		}
+		
+		private function resetData():void
+		{
+			_data = {};
 		}
 		
 		private function trim(value:String):String
