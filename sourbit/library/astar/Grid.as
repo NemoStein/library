@@ -35,11 +35,11 @@ package sourbit.library.astar
 			{
 				for (var y:int = 0; y < _rows; ++y)
 				{
-					_cells[x * _rows + y] = new Node(x, y, _maze[x][y]);
+					var data:Node = _cells[x * _rows + y] = new Node(x, y, _maze[x][y]);
 					
 					if (!data.block)
 					{
-						_heuristicValue += data.cost;
+						_heuristicValue += data.e;
 						++passableCount;
 					}
 				}
@@ -267,6 +267,16 @@ package sourbit.library.astar
 		public function get cells():Vector.<Node>
 		{
 			return _cells;
+		}
+		
+		public function get rows():int
+		{
+			return _rows;
+		}
+		
+		public function get cols():int
+		{
+			return _cols;
 		}
 	}
 }
