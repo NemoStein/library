@@ -79,7 +79,7 @@ package sourbit.library.bezier
 	}
 }
 
-import nemostein.bezier.Path;
+import sourbit.library.bezier.Path;
 
 class PathReference
 {

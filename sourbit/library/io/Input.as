@@ -43,10 +43,10 @@ package sourbit.library.io
 			_stage.addEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 			_stage.addEventListener(MouseEvent.MOUSE_DOWN, onLeftMouseDown);
 			_stage.addEventListener(MouseEvent.MOUSE_UP, onLeftMouseUp);
-			_stage.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouseDown);
-			_stage.addEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightMouseUp);
-			_stage.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMiddleMouseDown);
-			_stage.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);
+			//_stage.addEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouseDown);
+			//_stage.addEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightMouseUp);
+			//_stage.addEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMiddleMouseDown);
+			//_stage.addEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);
 			_stage.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
 			
 			reset();
@@ -58,10 +58,10 @@ package sourbit.library.io
 			_stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyUp);
 			_stage.removeEventListener(MouseEvent.MOUSE_DOWN, onLeftMouseDown);
 			_stage.removeEventListener(MouseEvent.MOUSE_UP, onLeftMouseUp);
-			_stage.removeEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouseDown);
-			_stage.removeEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightMouseUp);
-			_stage.removeEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMiddleMouseDown);
-			_stage.removeEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);
+			//_stage.removeEventListener(MouseEvent.RIGHT_MOUSE_DOWN, onRightMouseDown);
+			//_stage.removeEventListener(MouseEvent.RIGHT_MOUSE_UP, onRightMouseUp);
+			//_stage.removeEventListener(MouseEvent.MIDDLE_MOUSE_DOWN, onMiddleMouseDown);
+			//_stage.removeEventListener(MouseEvent.MIDDLE_MOUSE_UP, onMiddleMouseUp);
 			_stage.removeEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
 			
 			reset();
